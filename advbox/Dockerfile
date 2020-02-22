@@ -3,8 +3,6 @@ LABEL maintainer="duoquote"
 LABEL description="AdvBox running in docker container with jupyter notebook."
 LABEL version="1.0"
 RUN /bin/bash -c '\
-	tail -1 /etc/hosts | sed -r "s/(.*)\\t.*/\\1\\tadvbox/g" >> /etc/hosts && \
-	cat /etc/hosts && \
 	apt-get update && \
 	apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libglib2.0-0 libsqlite3-dev libsm6 libxext6 libxrender-dev wget git && \
 	wget https://www.python.org/ftp/python/3.5.9/Python-3.5.9.tar.xz && \
@@ -29,4 +27,4 @@ RUN /bin/bash -c '\
 
 EXPOSE 8888/tcp
 WORKDIR /app/AdvBox
-ENTRYPOINT /bin/bash -c 'source /app/bin/activate; JUPYTER_TOKEN=advbox; jupyter notebook --ip=advbox --allow-root --notebook-dir=/app/AdvBox'
+ENTRYPOINT /bin/bash -c 'source /app/bin/activate; JUPYTER_TOKEN=advbox; jupyter notebook --ip=$HOSTNAME --allow-root --notebook-dir=/app/AdvBox'
